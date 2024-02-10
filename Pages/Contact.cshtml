@@ -26,80 +26,50 @@
 
         <form action="" method="post">
             <div class="row mb-3">
-                <label class="col-sm-4 col-form-label" for="firstname">First Name *</label>
-                <div class="col-sm-8">
-                    <input type="text" id="firstname" class="from-control" name="firstname" value="@Model.FirstName" />
+                <label class="col-sm-4 col-form-label" asp-for="FirstName"></label>
+                <div class=" col-sm-8">
+                    <input class="from-control" asp-for="FirstName" />
+                    <span asp-validation-for="FirstName" class="text-danger"></span>
                 </div>
             </div>
 
             <div class="row mb-3">
-                <label class="col-sm-4 col-form-label" for="lastname">Last Name *</label>
+                <label class="col-sm-4 col-form-label" asp-for="LastName"></label>
                 <div class="col-sm-8">
-                    <input type="text" id="lastname" class="from-control" name="lastname" value="@Model.LastName" />
+                    <input class="from-control" asp-for="LastName" />
+                    <span asp-validation-for="LastName" class="text-danger"></span>
                 </div>
             </div>
 
             <div class="row mb-3">
-                <label class="col-sm-4 col-form-label" for="email">E-mail *</label>
+                <label class="col-sm-4 col-form-label" asp-for="Email"></label>
                 <div class="col-sm-8">
-                    <input type="email" id="email" class="from-control" name="email" value="@Model.Email" />
+                    <input class="from-control" asp-for="Email" />
+                    <span asp-validation-for="Email" class="text-danger"></span>
                 </div>
             </div>
 
             <div class="row mb-3">
-                <label class="col-sm-4 col-form-label" for="phone">Phone</label>
+                <label class="col-sm-4 col-form-label" asp-for="Phone"></label>
                 <div class="col-sm-8">
-                    <input type="text" id="phone" class="from-control" name="phone" value="@Model.Phone" />
+                    <input class="from-control" asp-for="Phone" />
                 </div>
             </div>
 
             <div class="row mb-3">
-                <label class="col-sm-4 col-form-label" for="subject">Subject *</label>
+                <label class="col-sm-4 col-form-label" asp-for="Subject"></label>
                 <div class="col-sm-8">
-                    <select class="form-select" name="subject" id="subject">
-                        @if (Model.Subject.Equals("Order Status"))
-                        {
-                            <option value="Order Status" selected>Order Status</option>
-                        }
-                        else
-                        {
-                            <option value="Order Status">Order Status</option>
-                        }
-
-                        @if (Model.Subject.Equals("Refund Request"))
-                        {
-                            <option value="Refund Request" selected>Refund Request</option>
-                        }
-                        else
-                        {
-                            <option value="Refund Request">Refund Request</option>
-                        }
-
-                        @if (Model.Subject.Equals("Job Application"))
-                        {
-                            <option value="Job Application" selected>Job Application</option>
-                        }
-                        else
-                        {
-                            <option value="Job Application">Job Application</option>
-                        }
-
-                        @if (Model.Subject.Equals("Other"))
-                        {
-                            <option value="Other" selected>Other</option>
-                        }
-                        else
-                        {
-                            <option value="Other">Other</option>
-                        }
+                    <select class="form-select" asp-for="Subject" asp-items="@Model.SubjectList">
                     </select>
+                    <span asp-validation-for="Subject" class="text-danger"></span>
                 </div>
             </div>
 
             <div class="row mb-3">
-                <label class="col-sm-4 col-form-label" for="message">Message *</label>
+                <label class="col-sm-4 col-form-label" asp-for="Message"></label>
                 <div class="col-sm-8">
-                    <textarea name="message" id="message" class="form-control">@Model.Message</textarea>
+                    <textarea class="form-control" asp-for="Message"></textarea>
+                    <span asp-validation-for="Message" class="text-danger"></span>
                 </div>
             </div>
 

@@ -1,0 +1,39 @@
+﻿@page
+@model MyApp.Namespace.IndexModel
+@{
+}
+
+<br />
+
+<h2>Received Messages</h2>
+
+<table class="table">
+    <thead>
+        <tr>
+            <th>ID</th>
+            <th>UserName</th>
+            <th>E-mail</th>
+            <th>Phone Number</th>
+            <th>Subject</th>
+            <th>Created At</th>
+            <th>Actions</th>
+        </tr>
+    </thead>
+    <tbody>
+        @foreach (var item in Model.listMessages)
+        {
+            <tr>
+                <td>@item.Id</td>
+                <td>@item.FirstName @item.LastName</td>
+                <td>@item.Email</td>
+                <td>@item.Phone</td>
+                <td>@item.Subject</td>
+                <td>@item.CreatedAt</td>
+                <td>
+                    <a class="btn btn-primary btn-sm" href="/Admin/Messages/Details?id=@item.Id">Details</a>
+                    <a class="btn btn-danger btn-sm" href="/Admin/Messages/Delete?id=@item.Id">Delete</a>
+                </td>
+            </tr>
+        }
+    </tbody>
+</table>

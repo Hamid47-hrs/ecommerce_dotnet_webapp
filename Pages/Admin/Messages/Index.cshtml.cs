@@ -9,41 +9,62 @@ namespace MyApp.Namespace
         public string ErrorMessage { get; set; } = "";
         public List<MessageInfo> listMessages = [];
 
+        public int page = 1;
+        public int totalPages = 0;
+        private readonly int pageSize = 4;
+
         public void OnGet()
         {
+            page = 1;
+            string? requestPage = Request.Query["page"];
+
+            if (requestPage != null)
+            {
+                try
+                {
+                    page = int.Parse(requestPage);
+                }
+                catch (Exception)
+                {
+                    page = 1;
+                }
+            }
             try
             {
                 string connectionString =
                     "Data Source=localhost;Initial Catalog=master;Integrated Security=SSPI;User ID=myDomain\\sa;Password=tlou2;";
 
-                using (SqlConnection connection = new(connectionString))
+                using SqlConnection connection = new(connectionString);
+                connection.Open();
+
+                string sqlCount = "SELECT COUNT(*) FROM messages";
+                using SqlCommand command1 = new(sqlCount, connection);
+                decimal count = (int)command1.ExecuteScalar();
+                totalPages = (int)Math.Ceiling(count / pageSize);
+
+                string sql = "SELECT * FROM messages ORDER BY id DESC";
+                sql += " OFFSET @skip ROWS FETCH NEXT @pageSize ROWS ONLY";
+
+                using SqlCommand command = new(sql, connection);
+                command.Parameters.AddWithValue("@skip", (page - 1) * pageSize);
+                command.Parameters.AddWithValue("@pageSize", pageSize);
+
+                using SqlDataReader reader = command.ExecuteReader();
+                while (reader.Read())
                 {
-                    connection.Open();
-
-                    string sql = "SELECT * FROM messages ORDER BY id DESC";
-
-                    using (SqlCommand command = new(sql, connection))
-                    {
-                        using (SqlDataReader reader = command.ExecuteReader())
+                    MessageInfo messageInfo =
+                        new()
                         {
-                            while (reader.Read())
-                            {
-                                MessageInfo messageInfo =
-                                    new()
-                                    {
-                                        Id = reader.GetInt32(0),
-                                        FirstName = reader.GetString(1),
-                                        LastName = reader.GetString(2),
-                                        Email = reader.GetString(3),
-                                        Phone = reader.GetString(4),
-                                        Subject = reader.GetString(5),
-                                        Message = reader.GetString(6),
-                                        CreatedAt = reader.GetDateTime(7).ToString("MM/dd/yyy")
-                                    };
-                                listMessages.Add(messageInfo);
-                            }
-                        }
-                    }
+                            Id = reader.GetInt32(0),
+                            FirstName = reader.GetString(1),
+                            LastName = reader.GetString(2),
+                            Email = reader.GetString(3),
+                            Phone = reader.GetString(4),
+                            Subject = reader.GetString(5),
+                            Message = reader.GetString(6),
+                            CreatedAt = reader.GetDateTime(7).ToString("MM/dd/yyy")
+                        };
+                    listMessages.Add(messageInfo);
                 }
             }
             catch (Exception ex)

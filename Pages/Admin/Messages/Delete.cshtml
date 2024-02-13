@@ -1,0 +1,25 @@
+﻿@page
+@using System.Data.SqlClient
+@{
+    string? id = Request.Query["id"];
+    try
+    {
+        string connectionString = "Data Source=localhost;Initial Catalog=master;Integrated Security=SSPI;User ID=myDomain\\sa;Password=tlou2;";
+
+        using SqlConnection connection = new(connectionString);
+        connection.Open();
+
+        string sql = "DELETE FROM messages WHERE id=@id";
+
+        using SqlCommand command = new(sql, connection);
+        command.Parameters.AddWithValue("@id", id);
+        command.ExecuteNonQuery();
+
+    }
+    catch (Exception ex)
+    {
+        Console.WriteLine(ex.Message);
+    }
+
+    Response.Redirect("/Admin/Messages/Index");
+}

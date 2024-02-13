@@ -4,7 +4,7 @@ using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.RazorPages;
 using Microsoft.AspNetCore.Mvc.Rendering;
 
-namespace MyApp.Namespace
+namespace ecommerce_dotnet_webapp.Pages
 {
     public class ContactModel : PageModel
     {

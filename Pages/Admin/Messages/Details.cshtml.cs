@@ -2,7 +2,7 @@ using System.Data.SqlClient;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.RazorPages;
 
-namespace MyApp.Namespace
+namespace ecommerce_dotnet_webapp.Pages.Admin.Messages
 {
     public class DetailsModel : PageModel
     {

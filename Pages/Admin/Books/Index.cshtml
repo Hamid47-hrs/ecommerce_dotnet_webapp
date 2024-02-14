@@ -1,0 +1,54 @@
+﻿@page
+@model IndexModel
+@{
+}
+
+<h2 class="my-3">List of Books</h2>
+
+@if (Model.ErrorMessage.Length > 0)
+{
+    <div class="alert alert-warning alert-dismissible fade show" role="alert">
+        <strong>@Model.ErrorMessage</strong>
+        <button type="button" class="btn-close" data-bs-dimiss='alert' aria-label="Close"></button>
+    </div>
+}
+
+<div class="row mb-3">
+    <div class="col"><a href="/Admin/Books/Create" class="btn btn-primary">Create New Book</a></div>
+</div>
+
+<table class="table">
+    <thead>
+        <tr>
+            <th>ID</th>
+            <th>Title</th>
+            <th>Author</th>
+            <th>Pages</th>
+            <th>Price</th>
+            <th>Category</th>
+            <th>Image</th>
+            <th>Created At</th>
+            <th>Action</th>
+        </tr>
+    </thead>
+    <tbody>
+        @foreach (var item in Model.BooksList)
+        {
+            <tr>
+                <td>@item.Id</td>
+                <td>@item.Title</td>
+                <td>@item.Author</td>
+                <td>@item.NumPages</td>
+                <td>@item.Price $</td>
+                <td>@item.Category</td>
+                <td><img src="/images/books/@item.ImageFileName" alt="Book Image" width="100">
+                </td>
+                <td>@item.Category</td>
+                <td style="white-space:nowrap">
+                    <a href="/Admin/Books/Edit?id=@item.Id" class="btn btn-primary btn-sm">Edit</a>
+                    <a href="/Admin/Books/Delete?id=@item.Id" class="btn btn-danger btn-sm">Delete</a>
+                </td>
+            </tr>
+        }
+    </tbody>
+</table>

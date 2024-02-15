@@ -8,9 +8,31 @@ namespace ecommerce_dotnet_webapp.Pages.Admin.Books
     {
         public string ErrorMessage = "";
         public List<BookInfo> BooksList = new List<BookInfo>();
+        public string? search = "";
+
+        public int currentPage = 1;
+        public int totalPages = 0;
+        private readonly int pageSize = 5;
 
         public void OnGet()
         {
+            search = Request.Query["search"];
+            if (search == null)
+                search = "";
+
+            currentPage = 1;
+            string? requestPage = Request.Query["page"];
+            if (requestPage != null)
+            {
+                try
+                {
+                    currentPage = int.Parse(requestPage);
+                }
+                catch (Exception)
+                {
+                    currentPage = 1;
+                }
+            }
             try
             {
                 string connectionString =
@@ -20,9 +42,35 @@ namespace ecommerce_dotnet_webapp.Pages.Admin.Books
                 {
                     connection.Open();
 
-                    string sql = "SELECT * FROM books_1 ORDER BY id DESC";
+                    string paginationSql = "SELECT COUNT(*) FROM books_1";
+
+                    if (search.Length > 0)
+                    {
+                        paginationSql += " WHERE title LIKE @search OR authors LIKE @search";
+                    }
+
+                    using (SqlCommand command = new SqlCommand(paginationSql, connection))
+                    {
+                        command.Parameters.AddWithValue("@search", "%" + search + "%");
+
+                        decimal count = (int)command.ExecuteScalar();
+                        totalPages = (int)Math.Ceiling(count / pageSize);
+                    }
+
+                    string sql = "SELECT * FROM books_1";
+                    if (search.Length > 0)
+                    {
+                        sql += " WHERE title LIKE @search OR authors LIKE @search";
+                    }
+                    sql += " ORDER BY id DESC";
+                    sql += " OFFSET @skip ROWS FETCH NEXT @pageSize ROWS ONLY";
+
                     using (SqlCommand command = new SqlCommand(sql, connection))
                     {
+                        command.Parameters.AddWithValue("@search", "%" + search + "%");
+                        command.Parameters.AddWithValue("@skip", (currentPage - 1) * pageSize);
+                        command.Parameters.AddWithValue("@pageSize", pageSize);
+
                         using (SqlDataReader reader = command.ExecuteReader())
                         {
                             while (reader.Read())

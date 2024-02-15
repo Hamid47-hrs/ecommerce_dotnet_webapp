@@ -15,6 +15,13 @@
 
 <div class="row mb-3">
     <div class="col"><a href="/Admin/Books/Create" class="btn btn-primary">Create New Book</a></div>
+    <div class="col">
+        <form class="d-flex">
+            <input type="search" class="from-control me-2" placeholder="Search by Title or Author" name="search"
+                value="@Model.search" />
+            <button type="Submit" class="btn btn-outline-success">Search</button>
+        </form>
+    </div>
 </div>
 
 <table class="table">
@@ -52,3 +59,10 @@
         }
     </tbody>
 </table>
+
+<nav class="pagination">
+    @for (int i = 1; i <= Model.totalPages; i++)
+    {
+        <li class="page-item"><a class="page-link" href="?page=@(i)&search=@(Model.search)">@i</a></li>
+    }
+</nav>

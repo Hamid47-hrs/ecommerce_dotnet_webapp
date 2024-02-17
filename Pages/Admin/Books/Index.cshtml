@@ -27,14 +27,14 @@
 <table class="table">
     <thead>
         <tr>
-            <th>ID</th>
-            <th>Title</th>
-            <th>Author</th>
-            <th>Pages</th>
-            <th>Price</th>
-            <th>Category</th>
+            <th style="cursor: pointer;" onclick="sortTable('id')">ID</th>
+            <th style="cursor: pointer;" onclick="sortTable('title')">Title</th>
+            <th style=" cursor: pointer;" onclick="sortTable('authors')">Author</th>
+            <th style=" cursor: pointer;" onclick="sortTable('num_pages')">Pages</th>
+            <th style=" cursor: pointer;" onclick="sortTable('price')">Price</th>
+            <th style=" cursor: pointer;" onclick="sortTable('category')">Category</th>
             <th>Image</th>
-            <th>Created At</th>
+            <th style=" cursor: pointer;" onclick="sortTable('created_at')">Created At</th>
             <th>Action</th>
         </tr>
     </thead>
@@ -48,9 +48,9 @@
                 <td>@item.NumPages</td>
                 <td>@item.Price $</td>
                 <td>@item.Category</td>
-                <td><img src="/images/books/@item.ImageFileName" alt="Book Image" width="100">
+                <td><img src=" /images/books/@item.ImageFileName" alt="Book Image" width="100">
                 </td>
-                <td>@item.Category</td>
+                <td>@item.CreatedAt</td>
                 <td style="white-space:nowrap">
                     <a href="/Admin/Books/Edit?id=@item.Id" class="btn btn-primary btn-sm">Edit</a>
                     <a href="/Admin/Books/Delete?id=@item.Id" class="btn btn-danger btn-sm">Delete</a>
@@ -63,6 +63,21 @@
 <nav class="pagination">
     @for (int i = 1; i <= Model.totalPages; i++)
     {
-        <li class="page-item"><a class="page-link" href="?page=@(i)&search=@(Model.search)">@i</a></li>
+        <li class="page-item"><a class="page-link"
+                href="?page=@(i)&search=@(Model.search)&column=@(Model.column)&order=@(Model.order)">@i</a></li>
     }
 </nav>
+
+<script>
+    function sortTable(column) {
+        let order = "desc";
+        let currentColumn = "@Model.column";
+        let currentOrder = "@Model.order";
+
+        if (column == currentColumn) {
+            currentOrder == "asc" ? order = "desc" : order = "asc";
+        }
+
+        window.location.href = "?search=@Model.search&column=" + column + "&order=" + order;
+    }
+</script>

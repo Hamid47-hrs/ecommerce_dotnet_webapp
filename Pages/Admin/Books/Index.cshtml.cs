@@ -13,6 +13,8 @@ namespace ecommerce_dotnet_webapp.Pages.Admin.Books
         public int currentPage = 1;
         public int totalPages = 0;
         private readonly int pageSize = 5;
+        public string column = "id";
+        public string order = "desc";
 
         public void OnGet()
         {
@@ -33,6 +35,29 @@ namespace ecommerce_dotnet_webapp.Pages.Admin.Books
                     currentPage = 1;
                 }
             }
+
+            string[] validColumns = new string[7]
+            {
+                "id",
+                "title",
+                "authors",
+                "num_pages",
+                "price",
+                "category",
+                "created_at"
+            };
+            column = Request.Query["column"];
+            if (column == null || !validColumns.Contains(column))
+            {
+                column = "id";
+            }
+
+            order = Request.Query["order"];
+            if (order == null || !order.Equals("asc"))
+            {
+                order = "desc";
+            }
+
             try
             {
                 string connectionString =
@@ -62,7 +87,7 @@ namespace ecommerce_dotnet_webapp.Pages.Admin.Books
                     {
                         sql += " WHERE title LIKE @search OR authors LIKE @search";
                     }
-                    sql += " ORDER BY id DESC";
+                    sql += " ORDER BY " + column + " " + order;
                     sql += " OFFSET @skip ROWS FETCH NEXT @pageSize ROWS ONLY";
 
                     using (SqlCommand command = new SqlCommand(sql, connection))

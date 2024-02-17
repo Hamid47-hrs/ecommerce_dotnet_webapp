@@ -1,0 +1,103 @@
+@page
+@model CreateModel
+@{
+}
+
+<h2 class="my-3">New Book</h2>
+
+@if (Model.errorMessage.Length > 0)
+{
+    <div class="alert alert-warning alert-dismissible fade show" role="alert">
+        <strong>@Model.errorMessage</strong>
+        <Button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></Button>
+    </div>
+}
+else if (Model.successMessage.Length > 0)
+{
+    <div class="alert alert-success alert-dismissible fade show" role="alert">
+        <strong>@Model.successMessage</strong>
+        <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
+    </div>
+}
+
+<form method="post" enctype="multipart/form-data">
+    <div class="row mb-3">
+        <label class="col-sm-3 col-form-label">Title</label>
+        <div class="col-sm-6">
+            <input class="form-control" asp-for="Title" />
+            <span class="text-danger" asp-validation-for="Title"></span>
+        </div>
+    </div>
+
+    <div class="row mb-3">
+        <label class="col-sm-3 col-form-label">Authors</label>
+        <div class="col-sm-6">
+            <input class="form-control" asp-for="Authors" />
+            <span class="text-danger" asp-validation-for="Authors"></span>
+        </div>
+    </div>
+
+    <div class="row mb-3">
+        <label class="col-sm-3 col-form-label">ISBN</label>
+        <div class="col-sm-6">
+            <input class="form-control" asp-for="ISBN" />
+            <span class="text-danger" asp-validation-for="ISBN"></span>
+        </div>
+    </div>
+
+    <div class="row mb-3">
+        <label class="col-sm-3 col-form-label">Pages</label>
+        <div class="col-sm-6">
+            <input class="form-control" asp-for="NumPages" />
+            <span class="text-danger" asp-validation-for="NumPages"></span>
+        </div>
+    </div>
+
+    <div class="row mb-3">
+        <label class="col-sm-3 col-form-label">Price $</label>
+        <div class="col-sm-6">
+            <input class="form-control" asp-for="Price" />
+            <span class="text-danger" asp-validation-for="Price"></span>
+        </div>
+    </div>
+
+    <div class="row mb-3">
+        <label class="col-sm-3 col-form-label">Category</label>
+        <div class="col-sm-6">
+            <select class="form-select" asp-for="Category">
+                <option value="Other">Other</option>
+                <option value="Mathematics">Mathematics</option>
+                <option value="Technology">Technology</option>
+                <option value="Economics">Economics</option>
+                <option value="Medicine">Medicine</option>
+                <option value="History">History</option>
+            </select>
+            <span class="text-danger" asp-validation-for="Category"></span>
+        </div>
+    </div>
+
+    <div class="row mb-3">
+        <label class="col-sm-3 col-form-label">Description</label>
+        <div class="col-sm-6">
+            <textarea class="form-control" rows="3" asp-for="Description"></textarea>
+            <span class="text-danger" asp-validation-for="Description"></span>
+        </div>
+    </div>
+
+    <div class="row mb-3">
+        <label class="col-sm-3 col-form-label">Image</label>
+        <div class="col-sm-6">
+            <input class="form-control" asp-for="ImageFile" />
+            <span class="text-danger" asp-validation-for="ImageFile"></span>
+        </div>
+    </div>
+
+    <div class="row mb-3">
+        <div class="offset-sm-3 col-sm-3 d-grid">
+            <button class="btn btn-primary" type="submit">Submit</button>
+        </div>
+        <div class="col-sm-3 d-grid">
+            <a class="btn btn-outline-primary" href="/Admin/Books/Index" role="button">Cancel</a>
+        </div>
+    </div>
+</form>

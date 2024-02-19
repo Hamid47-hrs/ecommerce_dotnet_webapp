@@ -144,7 +144,7 @@ namespace ecommerce_dotnet_webapp.Pages.Admin.Books
 
                 using (var stream = System.IO.File.Create(newImageFullPath))
                 {
-                    ImageFile.CopyToAsync(stream);
+                    ImageFile.CopyTo(stream);
                 }
 
                 string oldImageFullPath = Path.Combine(imageFolder, ImageFileName);

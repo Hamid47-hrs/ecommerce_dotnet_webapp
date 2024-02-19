@@ -89,7 +89,7 @@ namespace ecommerce_dotnet_webapp.Pages.Admin.Books
 
             using (var stream = System.IO.File.Create(imageFullPath))
             {
-                ImageFile.CopyToAsync(stream);
+                ImageFile.CopyTo(stream);
             }
 
             try

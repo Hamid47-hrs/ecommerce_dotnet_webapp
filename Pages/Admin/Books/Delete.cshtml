@@ -1,0 +1,51 @@
+﻿@page
+@using System.Data.SqlClient
+@inject Microsoft.AspNetCore.Hosting.IWebHostEnvironment webHostEnvironment
+@{
+    string? requestId = Request.Query["id"];
+
+    try
+    {
+        string connectionString = "Data Source=localhost;Initial Catalog=master;Integrated Security=SSPI;User ID=myDomain\\sa;Password=tlou2;";
+
+        using (SqlConnection connection = new SqlConnection(connectionString))
+        {
+            connection.Open();
+
+            string imageSql = "SELECT image_filename FROM books_1 WHERE id=@id";
+            using (SqlCommand command = new SqlCommand(imageSql, connection))
+            {
+                command.Parameters.AddWithValue("@id", requestId);
+
+                using(SqlDataReader reader = command.ExecuteReader())
+                {
+                    if (reader.Read())
+                    {
+                        string imageFileName = reader.GetString(0);
+                        string imageFolder = webHostEnvironment.WebRootPath + "/images/books/";
+                        string imageFullPath = System.IO.Path.Combine(imageFolder, imageFileName);
+
+                        System.IO.File.Delete(imageFullPath);
+
+                        Console.WriteLine($"image \"{imageFileName}\" Deleted.");
+                    }
+                }
+            }
+
+            string sql = "DELETE FROM books_1 WHERE id=@id";
+
+            using (SqlCommand command = new SqlCommand(sql, connection))
+            {
+                command.Parameters.AddWithValue("@id", requestId);
+
+                command.ExecuteNonQuery();
+            }
+
+
+        }
+    }
+    catch (Exception ex)
+    {
+        Console.WriteLine(ex.Message);
+    }
+}

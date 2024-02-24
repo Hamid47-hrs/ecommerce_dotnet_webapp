@@ -1,5 +1,6 @@
 using System.ComponentModel.DataAnnotations;
 using System.Data.SqlClient;
+using ecommerce_dotnet_webapp.Helper;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.Filters;
@@ -7,6 +8,7 @@ using Microsoft.AspNetCore.Mvc.RazorPages;
 
 namespace MyApp.Namespace
 {
+    [RequiredNoAuthentication]
     [BindProperties]
     public class LoginModel : PageModel
     {
@@ -19,6 +21,7 @@ namespace MyApp.Namespace
         public string errorMessage = "";
         public string successMessage = "";
 
+        /*
         public override void OnPageHandlerExecuting(PageHandlerExecutingContext context)
         {
             base.OnPageHandlerExecuting(context);
@@ -28,6 +31,7 @@ namespace MyApp.Namespace
                 context.Result = new RedirectResult("/");
             }
         }
+        */
 
         public void OnGet() { }
 

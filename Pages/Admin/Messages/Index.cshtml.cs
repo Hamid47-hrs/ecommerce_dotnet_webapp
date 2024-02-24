@@ -1,9 +1,11 @@
 using System.Data.SqlClient;
+using ecommerce_dotnet_webapp.Helper;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.RazorPages;
 
 namespace ecommerce_dotnet_webapp.Pages.Admin.Messages
 {
+    [RequiredAuthentication(RequiredRole = "admin")]
     public class IndexModel : PageModel
     {
         public string ErrorMessage { get; set; } = "";

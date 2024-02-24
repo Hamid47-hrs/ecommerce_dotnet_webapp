@@ -1,5 +1,6 @@
 using System.ComponentModel.DataAnnotations;
 using System.Data.SqlClient;
+using ecommerce_dotnet_webapp.Helper;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.Filters;
@@ -7,6 +8,7 @@ using Microsoft.AspNetCore.Mvc.RazorPages;
 
 namespace ecommerce_dotnet_webapp.Pages.Auth
 {
+    [RequiredNoAuthentication]
     [BindProperties]
     public class RegisterModel : PageModel
     {
@@ -31,16 +33,6 @@ namespace ecommerce_dotnet_webapp.Pages.Auth
 
         public string errorMessage = "";
         public string successMessage = "";
-
-        public override void OnPageHandlerExecuting(PageHandlerExecutingContext context)
-        {
-            base.OnPageHandlerExecuting(context);
-
-            if (HttpContext.Session.GetString("role") != null)
-            {
-                context.Result = new RedirectResult("/");
-            }
-        }
 
         public void OnGet() { }
 

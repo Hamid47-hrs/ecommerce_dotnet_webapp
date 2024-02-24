@@ -1,5 +1,7 @@
 ﻿@page
 @using System.Data.SqlClient
+@using ecommerce_dotnet_webapp.Helper
+@attribute [RequiredAuthentication(RequiredRole = "admin")]
 @{
     string? id = Request.Query["id"];
     try

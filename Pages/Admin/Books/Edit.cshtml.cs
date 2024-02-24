@@ -1,10 +1,12 @@
 using System.ComponentModel.DataAnnotations;
 using System.Data.SqlClient;
+using ecommerce_dotnet_webapp.Helper;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.RazorPages;
 
 namespace ecommerce_dotnet_webapp.Pages.Admin.Books
 {
+    [RequiredAuthentication(RequiredRole = "admin")]
     public class EditModel : PageModel
     {
         [BindProperty]

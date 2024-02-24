@@ -54,7 +54,7 @@
                                     <li>
                                         <hr class="dropdown-divider" />
                                     </li>
-                                    <li><a asp-page="/Index" class="dropdown-item">Home</a></li>
+                                    <li><a asp-page="/Auth/Logout" class="dropdown-item">LogOut</a></li>
                                 </ul>
                             </li>
                         }
@@ -62,14 +62,14 @@
                         {
                             <li class="nav-item dropdown">
                                 <a href="#" class="nav-link dropdown-toggle" role="button" data-bs-toggle="dropdown">
-                                    @Context.Session.GetString("firstname").ToUpper()
+                                    @Context.Session.GetString("firstname")
                                     @Context.Session.GetString("lastname")
                                 </a>
                                 <ul class="dropdown-menu">
                                     <li>
                                         <hr class="dropdown-divider" />
                                     </li>
-                                    <li><a asp-page="/Index" class="dropdown-item">Home</a></li>
+                                    <li><a asp-page="/Auth/Logout" class="dropdown-item">LogOut</a></li>
                                 </ul>
                             </li>
                         }

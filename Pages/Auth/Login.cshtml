@@ -1,0 +1,53 @@
+﻿@page
+@model MyApp.Namespace.LoginModel
+@{
+}
+
+<div class="card mx-auto" style="width: 400px;">
+    <div class="card-body">
+        <h2 class="text-center mb-5">Login Page</h2>
+
+        @if (Model.errorMessage.Length > 0)
+        {
+            <div class="alert alert-warning alert-dismissible fade show" role="alert">
+                <strong>@Model.errorMessage</strong>
+                <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
+            </div>
+        }
+        else if (Model.successMessage.Length > 0)
+        {
+            <div class="alert alert-success alert-dismissible fade show" role="alert">
+                <strong>@Model.successMessage</strong>
+                <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
+            </div>
+        }
+
+        <form method="post">
+
+            <div class="pb-3">
+                <div class="mb-3">
+                    <label class="form-label">E-Mail : </label>
+                    <input class="form-control" asp-for="Email">
+                    <span class="text-danger" asp-validation-for="Email"></span>
+                </div>
+
+                <div class="mb-3">
+                    <label class="form-label">Password : </label>
+                    <input class="form-control" type="password" asp-for="Password">
+                    <span class="text-danger" asp-validation-for="Password"></span>
+                </div>
+            </div>
+
+            <div class="row mb-3">
+                <div class="col d-grid">
+                    <button class="btn btn-primary" type="submit">Login</button>
+                </div>
+                <div class="col d-grid">
+                    <a class="btn btn-outline-primary" href="/" role="button">Cancel</a>
+                </div>
+
+                <a href="/Auth/ForgotPassword" class="btn btn-link mt-3" role="button">ForgotPassword?</a>
+            </div>
+        </form>
+    </div>
+</div>

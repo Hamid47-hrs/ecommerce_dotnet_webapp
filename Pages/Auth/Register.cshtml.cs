@@ -110,7 +110,7 @@ namespace ecommerce_dotnet_webapp.Pages.Auth
 
                     HttpContext.Session.SetInt32("id", id);
                     HttpContext.Session.SetString("firstname", firstName);
-                    HttpContext.Session.SetString("lastName", lastName);
+                    HttpContext.Session.SetString("lastname", lastName);
                     HttpContext.Session.SetString("email", email);
                     HttpContext.Session.SetString("phone", phone);
                     HttpContext.Session.SetString("role", role);

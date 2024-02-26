@@ -41,16 +41,18 @@
                                 <a class="btn btn-primary" asp-area="" asp-page="/Auth/Login">Login</a>
                             </li>
                         }
-                        else if (Context.Session.GetString("role").Equals("admin"))
+                        else if (Context.Session.GetString("role")!.Equals("admin"))
                         {
                             <li class="nav-item dropdown">
                                 <a href="#" class="nav-link dropdown-toggle" role="button" data-bs-toggle="dropdown">
-                                    Admin
+                                    @Context.Session.GetString("firstname")
+                                    @Context.Session.GetString("lastname")
+                                    (Admin)
                                 </a>
                                 <ul class="dropdown-menu">
                                     <li><a asp-page="/Admin/Messages/Index" class="dropdown-item">Messages</a></li>
                                     <li><a asp-page="/Admin/Books/Index" class="dropdown-item">Books</a></li>
-                                    <li><a asp-page="/Account" class="dropdown-item">Account</a></li>
+                                    <li><a asp-page="/Profile" class="dropdown-item">Profile</a></li>
                                     <li>
                                         <hr class="dropdown-divider" />
                                     </li>
@@ -58,7 +60,7 @@
                                 </ul>
                             </li>
                         }
-                        else if (Context.Session.GetString("role").Equals("client"))
+                        else if (Context.Session.GetString("role")!.Equals("client"))
                         {
                             <li class="nav-item dropdown">
                                 <a href="#" class="nav-link dropdown-toggle" role="button" data-bs-toggle="dropdown">
@@ -67,11 +69,12 @@
                                 </a>
                                 <ul class="dropdown-menu">
                                     <li>
-                                        <hr class="dropdown-divider" />
-                                    </li>
-                                    <li><a asp-page="/Auth/Logout" class="dropdown-item">LogOut</a></li>
-                                </ul>
+                                    <li><a asp-page="/Profile" class="dropdown-item">Profile</a></li>
+                                    <hr class="dropdown-divider" />
                             </li>
+                            <li><a asp-page="/Auth/Logout" class="dropdown-item">LogOut</a></li>
+                        </ul>
+                        </li>
                         }
                     </ul>
                 </div>

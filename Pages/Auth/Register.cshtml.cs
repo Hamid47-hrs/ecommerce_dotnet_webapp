@@ -28,7 +28,7 @@ namespace ecommerce_dotnet_webapp.Pages.Auth
         public string Password { get; set; } = "";
 
         [Required(ErrorMessage = "The 'Confirm Password' is REQUIRED!")]
-        [Compare("Password", ErrorMessage = "Password and Confirm Password do not match.")]
+        [Compare("Password", ErrorMessage = "Password & Confirm Password do not match.")]
         public string ConfirmPassword { get; set; } = "";
 
         public string errorMessage = "";

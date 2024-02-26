@@ -6,7 +6,7 @@ using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.Filters;
 using Microsoft.AspNetCore.Mvc.RazorPages;
 
-namespace MyApp.Namespace
+namespace ecommerce_dotnet_webapp.Pages.Auth
 {
     [RequiredNoAuthentication]
     [BindProperties]

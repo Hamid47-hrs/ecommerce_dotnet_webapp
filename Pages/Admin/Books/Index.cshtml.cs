@@ -8,8 +8,8 @@ namespace ecommerce_dotnet_webapp.Pages.Admin.Books
     [RequiredAuthentication(RequiredRole = "admin")]
     public class IndexModel : PageModel
     {
-        public string ErrorMessage = "";
-        public List<BookInfo> BooksList = new List<BookInfo>();
+        public string errorMessage = "";
+        public List<BookInfo> booksList = new List<BookInfo>();
         public string? search = "";
 
         public int currentPage = 1;
@@ -112,9 +112,9 @@ namespace ecommerce_dotnet_webapp.Pages.Admin.Books
                                 bookInfo.Category = reader.GetString(6);
                                 bookInfo.Description = reader.GetString(7);
                                 bookInfo.ImageFileName = reader.GetString(8);
-                                bookInfo.CreatedAt = reader.GetDateTime(9).ToString("MM/dd/yyy");
+                                bookInfo.CreatedAt = reader.GetDateTime(9).ToString("MM/dd/yyyy");
 
-                                BooksList.Add(bookInfo);
+                                booksList.Add(bookInfo);
                             }
                         }
                     }
@@ -122,7 +122,7 @@ namespace ecommerce_dotnet_webapp.Pages.Admin.Books
             }
             catch (Exception ex)
             {
-                ErrorMessage = ex.Message;
+                errorMessage = ex.Message;
             }
         }
 

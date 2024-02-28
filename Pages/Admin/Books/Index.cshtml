@@ -5,10 +5,10 @@
 
 <h2 class="my-3">List of Books</h2>
 
-@if (Model.ErrorMessage.Length > 0)
+@if (Model.errorMessage.Length > 0)
 {
     <div class="alert alert-warning alert-dismissible fade show" role="alert">
-        <strong>@Model.ErrorMessage</strong>
+        <strong>@Model.errorMessage</strong>
         <button type="button" class="btn-close" data-bs-dimiss='alert' aria-label="Close"></button>
     </div>
 }
@@ -39,7 +39,7 @@
         </tr>
     </thead>
     <tbody>
-        @foreach (var item in Model.BooksList)
+        @foreach (var item in Model.booksList)
         {
             <tr>
                 <td>@item.Id</td>

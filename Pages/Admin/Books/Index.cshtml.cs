@@ -15,8 +15,8 @@ namespace ecommerce_dotnet_webapp.Pages.Admin.Books
         public int currentPage = 1;
         public int totalPages = 0;
         private readonly int pageSize = 5;
-        public string column = "id";
-        public string order = "desc";
+        public string? column = "id";
+        public string? order = "desc";
 
         public void OnGet()
         {

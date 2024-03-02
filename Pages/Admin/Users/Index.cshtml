@@ -13,15 +13,25 @@
     </div>
 }
 
+<div class="row mb-3">
+    <div class="col">
+        <form class="d-flex">
+            <input type="search" class="from-control me-2" placeholder="Search by Last Name or E-Mail" name="search"
+                value="@Model.search" />
+            <button type="Submit" class="btn btn-outline-success">Search</button>
+        </form>
+    </div>
+</div>
+
 <table class="table">
     <thead>
         <tr>
             <th style="cursor: pointer;" onclick="sortTable('id')">ID</th>
             <th style="cursor: pointer;" onclick="sortTable('lastname')">Full Name</th>
-            <th style=" cursor: pointer;" onclick="sortTable('email')">E-Mail</th>
+            <th style="cursor: pointer;" onclick="sortTable('email')">E-Mail</th>
             <th>Phone</th>
-            <th style=" cursor: pointer;" onclick="sortTable('role')">Role</th>
-            <th style=" cursor: pointer;" onclick="sortTable('created_at')">Created At</th>
+            <th style="cursor: pointer;" onclick="sortTable('role')">Role</th>
+            <th style="cursor: pointer;" onclick="sortTable('created_at')">Created At</th>
             <th>Action</th>
         </tr>
     </thead>
@@ -43,7 +53,7 @@
                 }
                 <td>@user.createdAt</td>
                 <td style="white-space:nowrap">
-                    <a href="/Admin/Users/Edit?id=@user.id" class="btn btn-primary btn-sm">Edit Role</a>
+                    <a href="/Admin/Users/EditRole?id=@user.id" class="btn btn-primary btn-sm">Edit Role</a>
                     <a href="/Admin/Users/Delete?id=@user.id" class="btn btn-danger btn-sm">Delete</a>
                 </td>
             </tr>
@@ -51,24 +61,25 @@
     </tbody>
 </table>
 
-@* <nav class="pagination">
-@for (int i = 1; i <= Model.totalPages; i++)
-{
-<li class="page-item"><a class="page-link"
-href="?page=@(i)&search=@(Model.search)&column=@(Model.column)&order=@(Model.order)">@i</a></li>
-}
+<nav class="pagination">
+    @for (int i = 1; i <= Model.totalPages; i++)
+    {
+        <li class="page-item"><a class="page-link"
+                href="?page=@(i)&search=@(Model.search)&column=@(Model.column)&order=@(Model.order)">@i</a>
+        </li>
+    }
 </nav>
 
 <script>
-function sortTable(column) {
-let order = "desc";
-let currentColumn = "@Model.column";
-let currentOrder = "@Model.order";
+    function sortTable(column) {
+        let order = "desc";
+        let currentColumn = "@Model.column";
+        let currentOrder = "@Model.order";
 
-if (column == currentColumn) {
-currentOrder == "asc" ? order = "desc" : order = "asc";
-}
+        if (column == currentColumn) {
+            currentOrder == "asc" ? order = "desc" : order = "asc";
+        }
 
-window.location.href = "?search=@Model.search&column=" + column + "&order=" + order;
-}
-</script> *@
+        window.location.href = "?search=@Model.search&column=" + column + "&order=" + order;
+    }
+</script>

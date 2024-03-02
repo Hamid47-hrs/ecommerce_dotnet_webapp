@@ -1,6 +1,7 @@
 ﻿@page
 @model ProfileModel
 @{
+    ViewData["Title"] = "User Profile";
     string? sessionFirstName = HttpContext.Session.GetString("firstname");
     string? sessionLastName = HttpContext.Session.GetString("lastname");
     string? sessionEmail = HttpContext.Session.GetString("email");

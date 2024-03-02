@@ -1,11 +1,12 @@
 ﻿@page
 @model IndexModel
 @{
+    ViewData["Title"] = "Received Messages";
 }
 
 <br />
 
-<h2>Received Messages</h2>
+<h2 class="my-3">Received Messages</h2>
 
 @if (Model.ErrorMessage.Length > 0)
 {

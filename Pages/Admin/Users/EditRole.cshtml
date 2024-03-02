@@ -1,0 +1,110 @@
+﻿@page
+@model EditRoleModel
+@{
+}
+
+<h3 class="my-3">Edit Book</h3>
+
+@if (Model.errorMessage.Length > 0)
+{
+    <div class="alert alert-warning alert-dismissible fade show" role="alert">
+        <strong>@Model.errorMessage</strong>
+        <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
+    </div>
+}
+else if (Model.successMessage.Length > 0)
+{
+    <div class="alert alert-success alert-dismissible fade show" role="alert">
+        <strong>@Model.successMessage</strong>
+        <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
+    </div>
+}
+
+<div class="row mb-3">
+    <label class="col-sm-3 col-form-label">ID : </label>
+    <div class="col-sm-6">
+        <input readonly type="text" class="from-control-plaintext" asp-for="Id" />
+    </div>
+</div>
+
+<div class="row mb-3">
+    <label class="col-sm-3 col-form-label">First Name : </label>
+    <div class="col-sm-6">
+        <input readonly type="text" class="from-control-plaintext" asp-for="FirstName" />
+    </div>
+</div>
+
+<div class="row mb-3">
+    <label class="col-sm-3 col-form-label">Last Name : </label>
+    <div class="col-sm-6">
+        <input readonly type="text" class="from-control-plaintext" asp-for="LastName" />
+
+    </div>
+</div>
+
+<div class="row mb-3">
+    <label class="col-sm-3 col-form-label">E-Mail : </label>
+    <div class="col-sm-6">
+        <input readonly type="text" class="from-control-plaintext" asp-for="Email" />
+
+    </div>
+</div>
+
+<div class="row mb-3">
+    <label class="col-sm-3 col-form-label">Phone Number : </label>
+    <div class="col-sm-6">
+        <input readonly type="text" class="from-control-plaintext" asp-for="Phone" />
+    </div>
+</div>
+
+<div class="row mb-3">
+    <label class="col-sm-3 col-form-label">Role : </label>
+    <div class="col-sm-6">
+        <button type="button" class="btn btn-primary" data-bs-toggle="modal" data-bs-target="#EditModal">Edit
+            Role</button>
+    </div>
+</div>
+
+<div class="row mb-3">
+    <label class="col-sm-3 col-form-label">Created At : </label>
+    <div class="col-sm-6">
+        <input readonly type="text" class="from-control-plaintext" asp-for="CreatedAt" />
+
+    </div>
+</div>
+
+<!-- Edit Modal -->
+<div class="modal fade" id="EditModal" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
+    <div class="modal-dialog">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h5 class="modal-title" id="exampleModalLabel">Edit Role</h5>
+                <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+            </div>
+            <div class="modal-body">
+                <form method="post">
+                    <div class="row mb-3">
+                        <label class="col-sm-3 col-form-label">Role : </label>
+                        <div class="col-sm-6">
+                            <select class="form-select" asp-for="Role">
+                                <option value="admin">Admin</option>
+                                <option value="client">Client</option>
+                            </select>
+                            <span class="text-danger" asp-validation-for="Role"></span>
+                        </div>
+                    </div>
+
+                    <div class="row">
+                        <div class="offset-sm-4">
+                            <button type="submit" class="btn btn-primary">Update
+                                Role</button>
+                        </div>
+                    </div>
+                </form>
+            </div>
+            <div class="modal-footer">
+                <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>
+            </div>
+        </div>
+    </div>
+</div>

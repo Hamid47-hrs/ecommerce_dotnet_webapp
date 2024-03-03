@@ -99,20 +99,29 @@
     <br />
 </div>
 
+@if (Model.errorMessage.Length > 0)
+{
+    <div class="alert alert-warning alert-dismissible fade show" role="alert">
+        <strong>@Model.errorMessage</strong>
+        <button type="button" class="btn-close" data-bs-dimiss='alert' aria-label="Close"></button>
+    </div>
+}
+
 <div class="py-5">
     <div class="container p-3">
         <h1 class="pb-5 text-center display-5"><strong>Newest Books</strong></h1>
         <div class="row">
-            @for (int i = 0; i < 4; i++)
+            @foreach (var book in Model.newestBooksList)
             {
                 <div class="col-lg-3 col-sm-6 my-2">
                     <div class="card shadow text-center h-100 book-item">
-                        <img src="/images/books/63529-L.jpg" class="card-image-top p-3" alt="newest books" />
+                        <img src="/images/books/@book.ImageFileName" class="card-image-top p-3" alt="newest books" />
                         <div class="card-body">
-                            <h4>Ttitle</h4>
-                            <p>Authors: , Category: , Pages: </p>
-                            <h4>Price: 0.0 $</h4>
-                            <a class="btn btn-primary btn-sm my-2" href="" role="button">Details</a>
+                            <h4>@book.Title</h4>
+                            <p>Authors: @book.Author, Category: @book.Category, Pages: @book.NumPages</p>
+                            <h4>Price: @(book.Price)$</h4>
+                            <a class="btn btn-primary btn-sm my-2" href="/BookDetails?id=@(book.Id)"
+                                role="button">Details</a>
                             <button class="btn btn-warning btn-sm my-2" type="button">
                                 Add to Cart <i class="bi bi-cart4"></i>
                             </button>
@@ -128,16 +137,17 @@
     <div class="container p-3 rounded" style="background-color: #e9ecf0;">
         <h1 class="pb-5 text-center display-5"><strong>Top Sales</strong></h1>
         <div class="row">
-            @for (int i = 0; i < 4; i++)
+            @foreach (var book in Model.topSalesList)
             {
                 <div class="col-lg-3 col-sm-6 my-2">
                     <div class="card shadow text-center h-100 book-item">
-                        <img src="/images/books/63529-L.jpg" class="card-image-top p-3" alt="top sales books" />
+                        <img src="/images/books/@book.ImageFileName" class="card-image-top p-3" alt="newest books" />
                         <div class="card-body">
-                            <h4>Ttitle</h4>
-                            <p>Authors: , Category: , Pages: </p>
-                            <h4>Price: 0.0 $</h4>
-                            <a class="btn btn-primary btn-sm my-2" href="" role="button">Details</a>
+                            <h4>@book.Title</h4>
+                            <p>Authors: @book.Author, Category: @book.Category, Pages: @book.NumPages</p>
+                            <h4>Price: @(book.Price)$</h4>
+                            <a class="btn btn-primary btn-sm my-2" href="/BookDetails?id=@(book.Id)"
+                                role="button">Details</a>
                             <button class="btn btn-warning btn-sm my-2" type="button">
                                 Add to Cart <i class="bi bi-cart4"></i>
                             </button>

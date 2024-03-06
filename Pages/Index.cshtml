@@ -22,13 +22,13 @@
     }
 </style>
 
-<h1 class="display-2 text-center py-3">
-    <strong>Welcome to Our Bookstore!</strong>
-</h1>
-<div class="p-5 rounded" style="background-color: #08618d;">
+<div class="p-5" style="background-color: #08618d;">
+    <h1 class="display-2 text-center text-white pb-5">
+        <strong>Welcome to Our Bookstore!</strong>
+    </h1>
     <div class="container text-white">
         <div class="row">
-            <div class="col-md-6">
+            <div class="col-md-6 mb-3">
                 <br />
                 <h1 class="display-5 pb-2">Discover the Best-Selling Books</h1>
                 <p style="text-align: justify;">
@@ -122,7 +122,7 @@
                             <h4>Price: @(book.Price)$</h4>
                             <a class="btn btn-primary btn-sm my-2" href="/BookDetails?id=@(book.Id)"
                                 role="button">Details</a>
-                            <button class="btn btn-warning btn-sm my-2" type="button">
+                            <button class="btn btn-warning btn-sm my-2" type="button" onclick="addToCart(this,@book.Id)">
                                 Add to Cart <i class="bi bi-cart4"></i>
                             </button>
                         </div>
@@ -148,7 +148,7 @@
                             <h4>Price: @(book.Price)$</h4>
                             <a class="btn btn-primary btn-sm my-2" href="/BookDetails?id=@(book.Id)"
                                 role="button">Details</a>
-                            <button class="btn btn-warning btn-sm my-2" type="button">
+                            <button class="btn btn-warning btn-sm my-2" type="button" onclick="addToCart(this,@book.Id)">
                                 Add to Cart <i class="bi bi-cart4"></i>
                             </button>
                         </div>

@@ -1,4 +1,13 @@
-﻿<!DOCTYPE html>
+﻿@{
+    string cookieValue = Context.Request.Cookies["shopping_cart"] ?? "";
+    int cartSize = 0;
+    if (cookieValue.Length > 0)
+    {
+        cartSize = cookieValue.Split("-").Length;
+    }
+}
+
+<!DOCTYPE html>
 <html lang="en">
 
 <head>
@@ -12,12 +21,42 @@
     <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.11.3/font/bootstrap-icons.min.css">
 </head>
 
+<script>
+    function addToCart(button, bookId) {
+        let oldCartValue = getCookieValue("shopping_cart");
+        if (oldCartValue) oldCartValue += "-";
+        let newCartValue = oldCartValue + bookId;
+
+        let d = new Date();
+        d.setDate(d.getDate() + 365);
+        let expires = d.toUTCString();
+        document.cookie = "shopping_cart=" + newCartValue + ";expires=" + expires + ";path=/";
+
+        let cartItemsArray = newCartValue.split("-");
+        let count = cartItemsArray.length;
+        document.querySelector("#CartCountBadge").innerText = count;
+
+        button.innerHTML = "Added <i class='bi bi-check-lg'></i>";
+    }
+
+    function getCookieValue(cookieName) {
+        let cookiesArray = document.cookie.split(";");
+        for (cookie of cookiesArray) {
+            if (cookie.includes(cookieName)) {
+                return cookie.split("=")[1];
+            }
+        }
+
+        return "";
+    }
+</script>
+
 <body>
     <header>
-        <nav class="navbar navbar-expand-sm navbar-toggleable-sm navbar-light bg-white border-bottom box-shadow mb-3">
+        <nav class="navbar navbar-expand-sm navbar-toggleable-sm navbar-light bg-white border-bottom box-shadow">
             <div class="container">
                 <img src="/images/logo.png" height="60" alt="Logo" loading="lazy" />
-                <a class="navbar-brand" asp-area="" asp-page="/Index">Ecommerce .Net Website</a>
+                <a class="navbar-brand" asp-area="" asp-page="/Index">Ecommerce .Net</a>
                 <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target=".navbar-collapse"
                     aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
                     <span class="navbar-toggler-icon"></span>
@@ -34,6 +73,22 @@
                             <a class="nav-link text-dark" asp-area="" asp-page="/Privacy">Privacy</a>
                         </li>
                     </ul>
+
+                    @if (Context.Session.GetString("role") != null)
+                    {
+
+
+                        <ul class="navbar-nav">
+                            <li class="nav-item">
+                                <a class="nav-link text-dark me-3" asp-area="" asp-page="/Cart">
+                                    <i class="bi bi-cart4 text-danger h3"></i>
+                                    <span id="CartCountBadge" class="badge rounded-pill bg-danger"
+                                        style="vertical-align: top;">@cartSize</span>
+                                </a>
+                            </li>
+                        </ul>
+                    }
+
                     <ul class="navbar-nav">
                         @if (Context.Session.GetString("role") == null)
                         {

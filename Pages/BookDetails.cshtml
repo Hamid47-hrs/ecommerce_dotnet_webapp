@@ -1,0 +1,76 @@
+﻿@page
+@model BookDetailsModel
+@{
+}
+
+<h2 class="rounded text-center text-white p-2 mt-2" style="background-color: #08618d;">Book Details</h2>
+
+<div class="row">
+    <div class="col-md-3">
+        <div class="my-2 text-center sticky-top">
+            <img src="/images/books/@Model.bookInfo.ImageFileName" alt="book-image" class="img-fluid rounded" />
+            <button type="button" class="btn btn-warning btn-sm my-2" onclick="addToCart(This, @Model.bookInfo.Id)">Add
+                To
+                Cart <i class="bi bi-cart4"></i></button>
+        </div>
+    </div>
+    <div class="col-md-9">
+        <div class="row mb-3">
+            <div class="col-md-4">
+                <h4>Title</h4>
+            </div>
+            <div class="col-md-8">
+                <h4>@Model.bookInfo.Title</h4>
+            </div>
+        </div>
+        <div class="row mb-3">
+            <div class="col-md-4">
+                <strong>Author</strong>
+            </div>
+            <div class="col-md-8">
+                <strong>@Model.bookInfo.Author</strong>
+            </div>
+        </div>
+        <div class="row mb-3">
+            <div class="col-md-4">
+                <strong>ISBN</strong>
+            </div>
+            <div class="col-md-8">
+                <strong>@Model.bookInfo.Isbn</strong>
+            </div>
+        </div>
+        <div class="row mb-3">
+            <div class="col-md-4">
+                <strong>Pages</strong>
+            </div>
+            <div class="col-md-8">
+                <strong>@Model.bookInfo.NumPages</strong>
+            </div>
+        </div>
+        <div class="row mb-3">
+            <div class="col-md-4">
+                <strong>Price</strong>
+            </div>
+            <div class="col-md-8">
+                <strong>@Model.bookInfo.Price $</strong>
+            </div>
+        </div>
+        <div class="row mb-3">
+            <div class="col-md-4">
+                <strong>Category</strong>
+            </div>
+            <div class="col-md-8">
+                <strong>@Model.bookInfo.Category</strong>
+            </div>
+        </div>
+        <div class="row mb-3">
+            <div class="col-md-4">
+                <strong>Description</strong>
+            </div>
+            <div>
+                <p>@Model.bookInfo.Description</p>
+            </div>
+        </div>
+
+    </div>
+</div>

@@ -55,8 +55,8 @@ namespace ecommerce_dotnet_webapp.Pages.Admin.Books
 
         [BindProperty]
         [MaxLength(
-            1000,
-            ErrorMessage = "The Description of the Book should not be more than '10000' characters."
+            500,
+            ErrorMessage = "The Description of the Book should not be more than '50' characters."
         )]
         public string Description { get; set; } = "";
 

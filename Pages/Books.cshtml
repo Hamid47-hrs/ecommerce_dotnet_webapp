@@ -1,0 +1,115 @@
+﻿@page
+@model BooksModel
+@{
+}
+
+@if (Model.errorMessage.Length > 0)
+{
+    <div class="alert alert-warning alert-dismissible fade show" role="alert">
+        <strong>@Model.errorMessage</strong>
+        <button type="button" class="btn-close" data-bs-dimiss='alert' aria-label="Close"></button>
+    </div>
+}
+
+<h2 class="rounded text-center text-white p-2 mt-2" style="background-color: #08618d;">List of Books</h2>
+
+<div class="row">
+    <div class="col-md-4">
+        <div class="rounded text-white my-2 p-3 sticky-top" style="background-color: #08618d; top:10px;">
+            <h4 class="mb-3">Advanced Search</h4>
+
+            <form>
+                <div class="mb-3">
+                    <label class="form-label">Search</label>
+                    <input type="text" class="form-control" placeholder="Serach by Title or Author" asp-for="Search">
+                </div>
+
+                <div class="mb-3">
+                    <label class="form-label">Price</label>
+                    <select class="form-select" asp-for="PriceRange">
+                        <option value="any">Any</option>
+                        <option value="0_50">Under 50$</option>
+                        <option value="50_100">50$ to 100$</option>
+                        <option value="above100">Above 100$</option>
+                    </select>
+                </div>
+
+                <div class="mb-3">
+                    <label class="form-label">Pages</label>
+                    <select class="form-select" asp-for="PageRange">
+                        <option value="any">Any</option>
+                        <option value="0_100">Under 100</option>
+                        <option value="100_299">100 to 299</option>
+                        <option value="above300">Above 300</option>
+                    </select>
+                </div>
+
+                <div class="mb-3">
+                    <label class="form-label">Category</label>
+                    <select class="form-select" asp-for="Category">
+                        <option value="any">Any</option>
+                        <option value="mathematics">Mathematics</option>
+                        <option value="technology">Technology</option>
+                        <option value="economics">Economics</option>
+                        <option value="history">History</option>
+                        <option value="other">Other</option>
+                    </select>
+                </div>
+
+                <div class="row">
+                    <div class="col d-grid">
+                        <button type="submit" class="btn btn-outline-light">Search</button>
+                    </div>
+                    <div class="col d-grid">
+                        <!-- Go to the same page with no parameter in order to clear the form.-->
+                        <a role="button" href="/books" class="btn btn-outline-light">Clear</a>
+                    </div>
+                </div>
+            </form>
+        </div>
+    </div>
+    <div class="col-md-8">
+        <table class="table align-middle">
+            @foreach (var book in Model.booksList)
+            {
+                <tbody>
+                    <tr>
+                        <td style="width: 200px;">
+                            <img src="/images/books/@book.ImageFileName" alt="book image" class="img-fluid rounded" />
+                        </td>
+                        <td>
+                            <h3>@book.Title</h3>
+                            <p>
+                                <span>Author: @book.Author</span>
+                                <br />
+                                <span>Category: @book.Category</span>
+                                <br />
+                                <span>Pages: @book.NumPages</span>
+                            </p>
+                            <h4>@(book.Price)$</h4>
+
+                            <a href="/BookDetails?id=@(book.Id)" role="button"
+                                class="btn btn-primary btn-sm my-2">Details</a>
+                            <button type="button" class="btn btn-warning btn-sm my-2" onclick="addToCart(this, @book.Id)">
+                                Add To Cart <i class=" bi bi-cart4"></i>
+                            </button>
+                        </td>
+                    </tr>
+                </tbody>
+            }
+        </table>
+
+        <nav aria-label="Page navigation">
+            <ul class="pagination">
+                @for (int i = 1; i <= Model.totalPages; i++)
+                {
+                    <i class="page-item">
+                        <a class="page-link"
+                            href="?page=@(i)&Search=@(Model.Search)&PriceRange=@(Model.PriceRange)&PageRange=@(Model.PageRange)&Category=@(Model.Category)">@(i)</a>
+                    </i>
+                }
+            </ul>
+        </nav>
+
+    </div>
+</div>

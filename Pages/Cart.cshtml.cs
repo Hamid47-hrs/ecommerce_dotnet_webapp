@@ -45,7 +45,42 @@ namespace ecommerce_dotnet_webapp.Pages
             return bookDictionary;
         }
 
+        private decimal getBookPrice(string bookId)
+        {
+            decimal price = 0;
+
+            try
+            {
+                string connectionString =
+                    "Data Source=localhost;Initial Catalog=master;Integrated Security=SSPI;User ID=myDomain\\sa;Password=tlou2;";
+
+                using SqlConnection connection = new(connectionString);
+
+                connection.Open();
+
+                string sqlQuery = "SELECT price FROM books_1 WHERE id=@id";
+
+                using SqlCommand command = new(sqlQuery, connection);
+
+                command.Parameters.AddWithValue("@id", bookId);
+
+                using SqlDataReader reader = command.ExecuteReader();
+
+                if (reader.Read())
+                {
+                    price = reader.GetDecimal(0);
+                }
+            }
+            catch (Exception ex)
+            {
+                errorMessage = ex.Message;
+            }
+
+            return price;
+        }
+
         public string errorMessage = "";
+        public string successMessage = "";
 
         public void OnGet()
         {
@@ -147,6 +182,89 @@ namespace ecommerce_dotnet_webapp.Pages
             }
 
             Address = HttpContext.Session.GetString("address") ?? "";
+        }
+
+        public void OnPost()
+        {
+            int clientId = HttpContext.Session.GetInt32("id") ?? 0;
+
+            if (clientId < 1)
+            {
+                Response.Redirect("/Auth/Login");
+                return;
+            }
+
+            if (!ModelState.IsValid)
+            {
+                errorMessage = "Data Validation Faild!";
+                return;
+            }
+
+            var bookDictionary = getBookDictionary();
+
+            if (bookDictionary.Count < 1)
+            {
+                errorMessage = "Your Cart is Empty.";
+                return;
+            }
+
+            try
+            {
+                string connectionString =
+                    "Data Source=localhost;Initial Catalog=master;Integrated Security=SSPI;User ID=myDomain\\sa;Password=tlou2;";
+
+                using SqlConnection connection = new(connectionString);
+
+                connection.Open();
+
+                int orderId = 0;
+
+                string sqlQuery = "INSERT INTO orders";
+                sqlQuery +=
+                    " (client_id, order_date, shipping_fee, delivery_address, payment_method, payment_status, order_status)"
+                    + " OUTPUT INSERTED.id"
+                    + " VALUES (@client_id, CURRENT_TIMESTAMP, @shipping_fee, @delivery_address, @payment_method, 'pending', 'created')";
+
+                using SqlCommand command = new(sqlQuery, connection);
+
+                command.Parameters.AddWithValue("@client_id", clientId);
+                command.Parameters.AddWithValue("@shipping_fee", shippingFee);
+                command.Parameters.AddWithValue("@delivery_address", Address);
+                command.Parameters.AddWithValue("@payment_method", PaymentMethod);
+
+                orderId = (int)command.ExecuteScalar();
+
+                // * Add the ordered books to the order_items table.
+                string sqlOrderItem =
+                    "INSERT INTO order_items"
+                    + " (order_id, book_id, quantity, unit_price)"
+                    + " VALUES (@order_id, @book_id, @quantity, @unit_price)";
+
+                foreach (var keyValuePair in bookDictionary)
+                {
+                    string bookId = keyValuePair.Key;
+                    int quantity = keyValuePair.Value;
+                    decimal unitPrice = getBookPrice(bookId);
+
+                    using SqlCommand orderItemsCommand = new(sqlOrderItem, connection);
+
+                    orderItemsCommand.Parameters.AddWithValue("@order_id", orderId);
+                    orderItemsCommand.Parameters.AddWithValue("@book_id", bookId);
+                    orderItemsCommand.Parameters.AddWithValue("@quantity", quantity);
+                    orderItemsCommand.Parameters.AddWithValue("@unit_price", unitPrice);
+
+                    orderItemsCommand.ExecuteNonQuery();
+                }
+            }
+            catch (Exception ex)
+            {
+                errorMessage = ex.Message;
+                return;
+            }
+
+            Response.Cookies.Delete("shopping_cart");
+
+            successMessage = "Order Created Successfully.";
         }
     }
 

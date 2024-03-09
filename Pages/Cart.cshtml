@@ -7,6 +7,21 @@
     <div class="col-md-8 p-3">
         <h4>Shpping Cart</h4>
 
+        @if (Model.errorMessage.Length > 0)
+        {
+            <div class="alert alert-warning alert-dismissble fade show" role="alert">
+                <strong>@Model.errorMessage</strong>
+                <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
+            </div>
+        }
+        else if (Model.successMessage.Length > 0)
+        {
+            <div class="alert alert-success alert-dismissble fade show" role="alert">
+                <strong>@Model.successMessage</strong>
+                <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
+            </div>
+        }
+
         <table class="table align-middle">
             <tr>
                 <td style="width: 100px;"></td>
@@ -60,7 +75,7 @@
                 <div class="mb-3">
                     <label class="form-label">Delivery Address</label>
                     <input type="text" class="form-control" asp-for="Address" />
-                    <span class="text-danger" asp-for-validation="Address"></span>
+                    <span class="text-danger" asp-validation-for="Address"></span>
                 </div>
 
                 <div class="mb-3">

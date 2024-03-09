@@ -1,0 +1,111 @@
+﻿@page
+@model CartModel
+@{
+}
+
+<div class="row border rounded-3">
+    <div class="col-md-8 p-3">
+        <h4>Shpping Cart</h4>
+
+        <table class="table align-middle">
+            <tr>
+                <td style="width: 100px;"></td>
+                <td></td>
+                <td style="width: 140px;"></td>
+                <td style="width: 70px;"></td>
+                <td style="width: 30px;"></td>
+            </tr>
+
+            @foreach (var order in Model.orderItemsList)
+            {
+                <tr>
+                    <td><img src="/images/books/@order.bookInfo.ImageFileName" alt="book image" width="100"
+                            class="rounded" />
+                    </td>
+                    <td>
+                        <h4>@order.bookInfo.Title</h4>
+                        <p>
+                            <span>Authors: @order.bookInfo.Author</span>
+                            <br />
+                            <span>Category: @order.bookInfo.Category</span>
+                            <br />
+                            <span>Price: @(order.bookInfo.Price)$</span>
+                        </p>
+                    </td>
+                    <td>
+                        <a href="/Cart?action=sub&id=@(order.bookInfo.Id)" class="btn btn-outline-secondary btn-sm"
+                            role="button">-</a>
+                        <span class="border rounded-3 p-2 m-1">@order.numCopies</span>
+                        <a href="/Cart?action=add&id=@(order.bookInfo.Id)" class="btn btn-outline-secondary btn-sm"
+                            role="button">+</a>
+                    </td>
+                    <td>
+                        <span>Total Price: @(order.totalPrice)$</span>
+                    </td>
+                    <td>
+                        <a href="/Cart?action=del&id=@(order.bookInfo.Id)">
+                            <i class="bi bi-trash text-danger h4"></i>
+                        </a>
+                    </td>
+                </tr>
+            }
+
+        </table>
+    </div>
+    <div class="col-md-4">
+        <div class="text-white rounded my-2 p-3" style="background-color: #08618d;">
+            <h4>Shopping Summery</h4>
+            <hr />
+            <form method="post">
+                <div class="mb-3">
+                    <label class="form-label">Delivery Address</label>
+                    <input type="text" class="form-control" asp-for="Address" />
+                    <span class="text-danger" asp-for-validation="Address"></span>
+                </div>
+
+                <div class="mb-3">
+                    <label class="form-label">Payment Method</label>
+                    <select class="form-select" asp-for="PaymentMethod">
+                        <option value="cash">Can On Delivery</option>
+                        <option value="credit">Credit Card</option>
+                        <option value="paypal">Paypal</option>
+                    </select>
+                </div>
+
+                <hr class="divider" />
+
+                <div class="row">
+                    <div class="col">
+                        <p>Subtotal: </p>
+                    </div>
+                    <div class="col">
+                        <p class="text-end">@(Model.subTotal)$</p>
+                    </div>
+                </div>
+
+                <div class="row">
+                    <div class="col">
+                        <p>Shipping: </p>
+                    </div>
+                    <div class="col">
+                        <p class="text-end">@(Model.shippingFee)$</p>
+                    </div>
+                </div>
+
+                <div class="row text-warning">
+                    <div class="col">
+                        <p>Total: </p>
+                    </div>
+                    <div class="col">
+                        <p class="text-end">@(Model.totalFee)$</p>
+                    </div>
+                </div>
+
+
+                <div class="d-grid">
+                    <button type="submit" class="btn btn-outline-light">Checkout</button>
+                </div>
+            </form>
+        </div>
+    </div>
+</div>

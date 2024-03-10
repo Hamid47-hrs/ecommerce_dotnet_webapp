@@ -5,6 +5,13 @@
 
 <h3 class="rounded p-2 my-2 text-white text-center" style="background-color: #08618d;">Order Details</h3>
 
+@if (Model.errorMessage.Length > 0)
+{
+    <div class="alert alert-warning alert-dismissible fade show" role="alert">
+        <strong>@Model.errorMessage</strong>
+        <button type="button" class="btn-close" data-bs-dimiss='alert' aria-label="Close"></button>
+    </div>
+}
 
 <div class="row mb-3 py-3">
     <div class="col-lg-6">

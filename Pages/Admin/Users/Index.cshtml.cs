@@ -7,7 +7,7 @@ using Microsoft.AspNetCore.Mvc.RazorPages;
 namespace ecommerce_dotnet_webapp.Pages.Admin.Users
 {
     [RequiredAuthentication(RequiredRole = "admin")]
-    public class IndexModel : PageModel
+    public class IndexModel(IConfiguration configuration) : PageModel
     {
         public List<UserInfo> usersList = [];
         public string errorMessage = "";
@@ -20,6 +20,10 @@ namespace ecommerce_dotnet_webapp.Pages.Admin.Users
 
         public string? column = "id";
         public string order = "DESC";
+
+        private readonly string connectionString = configuration.GetConnectionString(
+            "DefaultConnection"
+        )!;
 
         public void OnGet()
         {
@@ -48,9 +52,6 @@ namespace ecommerce_dotnet_webapp.Pages.Admin.Users
 
             try
             {
-                string connectionString =
-                    "Data Source=localhost;Initial Catalog=master;Integrated Security=SSPI;User ID=myDomain\\sa;Password=tlou2;";
-
                 using SqlConnection connection = new(connectionString);
                 connection.Open();
 

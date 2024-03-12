@@ -8,7 +8,7 @@ using Microsoft.AspNetCore.Mvc.RazorPages;
 namespace ecommerce_dotnet_webapp.Pages.Auth
 {
     [RequiredNoAuthentication]
-    public class ResetPasswordModel : PageModel
+    public class ResetPasswordModel(IConfiguration configuration) : PageModel
     {
         [BindProperty, Required(ErrorMessage = "The Password is REQUIERD!")]
         [MinLength(8, ErrorMessage = "The password should be at least '8' characters!")]
@@ -20,6 +20,10 @@ namespace ecommerce_dotnet_webapp.Pages.Auth
 
         public string errorMessage = "";
         public string successMessage = "";
+
+        private readonly string connectionString = configuration.GetConnectionString(
+            "DefaultConnection"
+        )!;
 
         public void OnGet()
         {
@@ -50,9 +54,6 @@ namespace ecommerce_dotnet_webapp.Pages.Auth
 
             try
             {
-                string connectionString =
-                    "Data Source=localhost;Initial Catalog=master;Integrated Security=SSPI;User ID=myDomain\\sa;Password=tlou2;";
-
                 using SqlConnection connection = new(connectionString);
                 connection.Open();
 

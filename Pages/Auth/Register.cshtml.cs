@@ -10,7 +10,7 @@ namespace ecommerce_dotnet_webapp.Pages.Auth
 {
     [RequiredNoAuthentication]
     [BindProperties]
-    public class RegisterModel : PageModel
+    public class RegisterModel(IConfiguration configuration) : PageModel
     {
         [Required(ErrorMessage = "The 'First Name' is REQUIRED!")]
         public string FirstName { get; set; } = "";
@@ -34,6 +34,10 @@ namespace ecommerce_dotnet_webapp.Pages.Auth
         public string errorMessage = "";
         public string successMessage = "";
 
+        private readonly string connectionString = configuration.GetConnectionString(
+            "DefaultConnection"
+        )!;
+
         public void OnGet() { }
 
         public void OnPost()
@@ -46,9 +50,6 @@ namespace ecommerce_dotnet_webapp.Pages.Auth
 
             if (Phone == null)
                 Phone = "";
-
-            string connectionString =
-                "Data Source=localhost;Initial Catalog=master;Integrated Security=SSPI;User ID=myDomain\\sa;Password=tlou2;";
 
             try
             {

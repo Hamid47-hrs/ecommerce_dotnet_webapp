@@ -7,7 +7,7 @@ using static ecommerce_dotnet_webapp.Pages.Admin.Books.IndexModel;
 namespace ecommerce_dotnet_webapp.Pages.Admin
 {
     [RequiredAuthentication(RequiredRole = "admin")]
-    public class IndexModel : PageModel
+    public class IndexModel(IConfiguration configuration) : PageModel
     {
         public List<OrderInfo> orderInfoList = [];
 
@@ -15,6 +15,10 @@ namespace ecommerce_dotnet_webapp.Pages.Admin
         public int totalPages = 0;
         private readonly int pageSize = 5;
         public string errorMessage = "";
+
+        private readonly string connectionString = configuration.GetConnectionString(
+            "DefaultConnection"
+        )!;
 
         public void OnGet()
         {
@@ -27,9 +31,6 @@ namespace ecommerce_dotnet_webapp.Pages.Admin
             {
                 currentPage = 1;
             }
-
-            string connectionString =
-                "Data Source=localhost;Initial Catalog=master;Integrated Security=SSPI;User ID=myDomain\\sa;Password=tlou2;";
 
             using SqlConnection connection = new(connectionString);
 
@@ -66,7 +67,7 @@ namespace ecommerce_dotnet_webapp.Pages.Admin
                         paymentStatus = reader.GetString(6),
                         orderStatus = reader.GetString(7),
                     };
-                orderInfo.orderItemInfoList = OrderInfo.getOrderItems(orderInfo.id);
+                orderInfo.orderItemInfoList = OrderInfo.GetOrderItems(orderInfo.id);
 
                 orderInfoList.Add(orderInfo);
             }
@@ -97,7 +98,7 @@ namespace ecommerce_dotnet_webapp.Pages.Admin
 
         public List<OrderItemInfo> orderItemInfoList = [];
 
-        public static List<OrderItemInfo> getOrderItems(int orderId)
+        public static List<OrderItemInfo> GetOrderItems(int orderId)
         {
             List<OrderItemInfo> items = [];
 

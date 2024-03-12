@@ -7,7 +7,7 @@ using Microsoft.AspNetCore.Mvc.RazorPages;
 namespace ecommerce_dotnet_webapp.Pages.Admin.Books
 {
     [RequiredAuthentication(RequiredRole = "admin")]
-    public class EditModel : PageModel
+    public class EditModel(IWebHostEnvironment env, IConfiguration configuration) : PageModel
     {
         [BindProperty]
         public int Id { get; set; }
@@ -68,12 +68,10 @@ namespace ecommerce_dotnet_webapp.Pages.Admin.Books
         public string errorMessage = "";
         public string successMessage = "";
 
-        public IWebHostEnvironment webHostEnvironment;
-
-        public EditModel(IWebHostEnvironment env)
-        {
-            webHostEnvironment = env;
-        }
+        public IWebHostEnvironment webHostEnvironment = env;
+        private readonly string connectionString = configuration.GetConnectionString(
+            "DefaultConnection"
+        )!;
 
         public void OnGet()
         {
@@ -81,9 +79,6 @@ namespace ecommerce_dotnet_webapp.Pages.Admin.Books
 
             try
             {
-                string connectionString =
-                    "Data Source=localhost;Initial Catalog=master;Integrated Security=SSPI;User ID=myDomain\\sa;Password=tlou2;";
-
                 using (SqlConnection connection = new SqlConnection(connectionString))
                 {
                     connection.Open();
@@ -154,9 +149,6 @@ namespace ecommerce_dotnet_webapp.Pages.Admin.Books
 
                 try
                 {
-                    string connectionString =
-                        "Data Source=localhost;Initial Catalog=master;Integrated Security=SSPI;User ID=myDomain\\sa;Password=tlou2;";
-
                     using (SqlConnection connection = new SqlConnection(connectionString))
                     {
                         connection.Open();

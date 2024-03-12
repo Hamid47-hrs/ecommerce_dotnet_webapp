@@ -1,6 +1,7 @@
 ﻿@page
 @using System.Data.SqlClient
 @inject Microsoft.AspNetCore.Hosting.IWebHostEnvironment webHostEnvironment
+@inject IConfiguration configuration;
 @using ecommerce_dotnet_webapp.Helper
 @attribute [RequiredAuthentication(RequiredRole = "admin")]
 @{
@@ -8,7 +9,7 @@
 
     try
     {
-        string connectionString = "Data Source=localhost;Initial Catalog=master;Integrated Security=SSPI;User ID=myDomain\\sa;Password=tlou2;";
+        string connectionString = configuration.GetConnectionString("DefaultConnection")!;
 
         using (SqlConnection connection = new SqlConnection(connectionString))
         {
@@ -19,7 +20,7 @@
             {
                 command.Parameters.AddWithValue("@id", requestId);
 
-                using(SqlDataReader reader = command.ExecuteReader())
+                using (SqlDataReader reader = command.ExecuteReader())
                 {
                     if (reader.Read())
                     {

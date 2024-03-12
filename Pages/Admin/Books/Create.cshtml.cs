@@ -51,7 +51,7 @@ namespace ecommerce_dotnet_webapp.Pages.Admin.Books
 
         [BindProperty]
         [Required(ErrorMessage = "The Image of the Book is REQUIRED!")]
-        public IFormFile ImageFile { get; set; }
+        public IFormFile? ImageFile { get; set; }
 
         [BindProperty]
         [MaxLength(
@@ -64,10 +64,12 @@ namespace ecommerce_dotnet_webapp.Pages.Admin.Books
         public string successMessage = "";
 
         private IWebHostEnvironment webHostEnvironment;
+        private readonly string connectionString;
 
-        public CreateModel(IWebHostEnvironment env)
+        public CreateModel(IWebHostEnvironment env, IConfiguration configuration)
         {
             webHostEnvironment = env;
+            connectionString = configuration.GetConnectionString("DefaultConnection")!;
         }
 
         public void OnGet() { }
@@ -96,9 +98,6 @@ namespace ecommerce_dotnet_webapp.Pages.Admin.Books
 
             try
             {
-                string connectionString =
-                    "Data Source=localhost;Initial Catalog=master;Integrated Security=SSPI;User ID=myDomain\\sa;Password=tlou2;";
-
                 using (SqlConnection connection = new SqlConnection(connectionString))
                 {
                     connection.Open();

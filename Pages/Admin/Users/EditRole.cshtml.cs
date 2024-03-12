@@ -9,7 +9,7 @@ namespace ecommerce_dotnet_webapp.Pages.Admin.Users
 {
     [RequiredAuthentication(RequiredRole = "admin")]
     [BindProperties]
-    public class EditRoleModel() : PageModel
+    public class EditRoleModel(IConfiguration configuration) : PageModel
     {
         public int Id { get; set; }
         public string FirstName { get; set; } = "";
@@ -24,15 +24,16 @@ namespace ecommerce_dotnet_webapp.Pages.Admin.Users
         public string errorMessage = "";
         public string successMessage = "";
 
+        private readonly string connectionString = configuration.GetConnectionString(
+            "DefaultConnection"
+        )!;
+
         public void OnGet()
         {
             string? requestId = Request.Query["id"];
 
             try
             {
-                string connectionString =
-                    "Data Source=localhost;Initial Catalog=master;Integrated Security=SSPI;User ID=myDomain\\sa;Password=tlou2;";
-
                 using SqlConnection connection = new(connectionString);
                 connection.Open();
 
@@ -89,9 +90,6 @@ namespace ecommerce_dotnet_webapp.Pages.Admin.Users
 
             try
             {
-                string connectionString =
-                    "Data Source=localhost;Initial Catalog=master;Integrated Security=SSPI;User ID=myDomain\\sa;Password=tlou2;";
-
                 using SqlConnection connection = new(connectionString);
                 connection.Open();
 

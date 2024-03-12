@@ -6,7 +6,7 @@ using Microsoft.AspNetCore.Mvc.RazorPages;
 namespace ecommerce_dotnet_webapp.Pages.Admin.Books
 {
     [RequiredAuthentication(RequiredRole = "admin")]
-    public class IndexModel : PageModel
+    public class IndexModel(IConfiguration configuration) : PageModel
     {
         public string errorMessage = "";
         public List<BookInfo> booksList = new List<BookInfo>();
@@ -17,6 +17,10 @@ namespace ecommerce_dotnet_webapp.Pages.Admin.Books
         private readonly int pageSize = 5;
         public string? column = "id";
         public string? order = "desc";
+
+        private readonly string connectionString = configuration.GetConnectionString(
+            "DefaultConnection"
+        )!;
 
         public void OnGet()
         {
@@ -62,9 +66,6 @@ namespace ecommerce_dotnet_webapp.Pages.Admin.Books
 
             try
             {
-                string connectionString =
-                    "Data Source=localhost;Initial Catalog=master;Integrated Security=SSPI;User ID=myDomain\\sa;Password=tlou2;";
-
                 using (SqlConnection connection = new SqlConnection(connectionString))
                 {
                     connection.Open();

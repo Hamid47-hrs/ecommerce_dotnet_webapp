@@ -6,7 +6,7 @@ using Microsoft.AspNetCore.Mvc.RazorPages;
 namespace ecommerce_dotnet_webapp.Pages.Admin.Messages
 {
     [RequiredAuthentication(RequiredRole = "admin")]
-    public class IndexModel : PageModel
+    public class IndexModel(IConfiguration configuration) : PageModel
     {
         public string ErrorMessage { get; set; } = "";
         public List<MessageInfo> listMessages = [];
@@ -14,6 +14,10 @@ namespace ecommerce_dotnet_webapp.Pages.Admin.Messages
         public int page = 1;
         public int totalPages = 0;
         private readonly int pageSize = 4;
+
+        private readonly string connectionString = configuration.GetConnectionString(
+            "DefaultConnection"
+        )!;
 
         public void OnGet()
         {
@@ -33,9 +37,6 @@ namespace ecommerce_dotnet_webapp.Pages.Admin.Messages
             }
             try
             {
-                string connectionString =
-                    "Data Source=localhost;Initial Catalog=master;Integrated Security=SSPI;User ID=myDomain\\sa;Password=tlou2;";
-
                 using SqlConnection connection = new(connectionString);
                 connection.Open();
 

@@ -9,7 +9,7 @@ namespace ecommerce_dotnet_webapp.Pages
 {
     [RequiredAuthentication]
     [BindProperties]
-    public class CartModel : PageModel
+    public class CartModel(IConfiguration configuration) : PageModel
     {
         [Required(ErrorMessage = "The Address is REQUIRED!")]
         public string Address { get; set; } = "";
@@ -51,9 +51,6 @@ namespace ecommerce_dotnet_webapp.Pages
 
             try
             {
-                string connectionString =
-                    "Data Source=localhost;Initial Catalog=master;Integrated Security=SSPI;User ID=myDomain\\sa;Password=tlou2;";
-
                 using SqlConnection connection = new(connectionString);
 
                 connection.Open();
@@ -81,6 +78,10 @@ namespace ecommerce_dotnet_webapp.Pages
 
         public string errorMessage = "";
         public string successMessage = "";
+
+        private readonly string connectionString = configuration.GetConnectionString(
+            "DefaultConnection"
+        )!;
 
         public void OnGet()
         {
@@ -132,9 +133,6 @@ namespace ecommerce_dotnet_webapp.Pages
 
             try
             {
-                string connectionString =
-                    "Data Source=localhost;Initial Catalog=master;Integrated Security=SSPI;User ID=myDomain\\sa;Password=tlou2;";
-
                 using SqlConnection connection = new(connectionString);
 
                 connection.Open();
@@ -210,9 +208,6 @@ namespace ecommerce_dotnet_webapp.Pages
 
             try
             {
-                string connectionString =
-                    "Data Source=localhost;Initial Catalog=master;Integrated Security=SSPI;User ID=myDomain\\sa;Password=tlou2;";
-
                 using SqlConnection connection = new(connectionString);
 
                 connection.Open();
@@ -265,6 +260,7 @@ namespace ecommerce_dotnet_webapp.Pages
             Response.Cookies.Delete("shopping_cart");
 
             successMessage = "Order Created Successfully.";
+            // Response.Redirect("/Cart");
         }
     }
 

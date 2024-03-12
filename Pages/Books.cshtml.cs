@@ -8,7 +8,7 @@ using static ecommerce_dotnet_webapp.Pages.Admin.Books.IndexModel;
 namespace ecommerce_dotnet_webapp.Pages
 {
     [BindProperties(SupportsGet = true)]
-    public class BooksModel : PageModel
+    public class BooksModel(IConfiguration configuration) : PageModel
     {
         public string? Search { get; set; }
         public string PriceRange { get; set; } = "any";
@@ -22,6 +22,10 @@ namespace ecommerce_dotnet_webapp.Pages
         private readonly int pageSize = 4;
 
         public string errorMessage = "";
+
+        private readonly string connectionString = configuration.GetConnectionString(
+            "DefaultConnection"
+        )!;
 
         public void OnGet()
         {
@@ -40,9 +44,6 @@ namespace ecommerce_dotnet_webapp.Pages
             }
             try
             {
-                string connectionString =
-                    "Data Source=localhost;Initial Catalog=master;Integrated Security=SSPI;User ID=myDomain\\sa;Password=tlou2;";
-
                 using SqlConnection connection = new(connectionString);
 
                 connection.Open();

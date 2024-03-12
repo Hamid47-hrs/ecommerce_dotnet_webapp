@@ -6,7 +6,7 @@ using Microsoft.AspNetCore.Mvc.Rendering;
 
 namespace ecommerce_dotnet_webapp.Pages
 {
-    public class ContactModel : PageModel
+    public class ContactModel(IConfiguration configuration) : PageModel
     {
         public void OnGet() { }
 
@@ -53,6 +53,10 @@ namespace ecommerce_dotnet_webapp.Pages
         public string SuccessMessage { get; set; } = "";
         public string ErrorMessage { get; set; } = "";
 
+        private readonly string connectionString = configuration.GetConnectionString(
+            "DefaultConnection"
+        )!;
+
         public void OnPost()
         {
             if (!ModelState.IsValid)
@@ -66,9 +70,6 @@ namespace ecommerce_dotnet_webapp.Pages
 
             try
             {
-                string connectionString =
-                    "Data Source=localhost;Initial Catalog=master;Integrated Security=SSPI;User ID=myDomain\\sa;Password=tlou2;";
-
                 using (SqlConnection connection = new SqlConnection(connectionString))
                 {
                     connection.Open();

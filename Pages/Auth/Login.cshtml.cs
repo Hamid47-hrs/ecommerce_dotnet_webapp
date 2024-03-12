@@ -10,7 +10,7 @@ namespace ecommerce_dotnet_webapp.Pages.Auth
 {
     [RequiredNoAuthentication]
     [BindProperties]
-    public class LoginModel : PageModel
+    public class LoginModel(IConfiguration configuration) : PageModel
     {
         [Required(ErrorMessage = "The E-Mail is REQUIRED!"), EmailAddress]
         public string Email { get; set; } = "";
@@ -20,6 +20,10 @@ namespace ecommerce_dotnet_webapp.Pages.Auth
 
         public string errorMessage = "";
         public string successMessage = "";
+
+        private readonly string connectionString = configuration.GetConnectionString(
+            "DefaultConnection"
+        )!;
 
         /*
         public override void OnPageHandlerExecuting(PageHandlerExecutingContext context)
@@ -45,9 +49,6 @@ namespace ecommerce_dotnet_webapp.Pages.Auth
 
             try
             {
-                string connectionString =
-                    "Data Source=localhost;Initial Catalog=master;Integrated Security=SSPI;User ID=myDomain\\sa;Password=tlou2;";
-
                 using SqlConnection connection = new(connectionString);
                 connection.Open();
 

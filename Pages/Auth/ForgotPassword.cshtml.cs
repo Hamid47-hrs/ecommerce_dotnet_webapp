@@ -7,13 +7,17 @@ using Microsoft.AspNetCore.Mvc.RazorPages;
 namespace ecommerce_dotnet_webapp.Pages.Auth
 {
     [RequiredNoAuthentication]
-    public class ForgotPasswordModel : PageModel
+    public class ForgotPasswordModel(IConfiguration configuration) : PageModel
     {
         [BindProperty, Required(ErrorMessage = "The E-Mail is REQUIERD!"), EmailAddress]
         public string Email { get; set; } = "";
 
         public string errorMessage = "";
         public string successMessage = "";
+
+        private readonly string connectionString = configuration.GetConnectionString(
+            "DefaultConnection"
+        )!;
 
         public void OnGet() { }
 
@@ -27,9 +31,6 @@ namespace ecommerce_dotnet_webapp.Pages.Auth
 
             try
             {
-                string connectionString =
-                    "Data Source=localhost;Initial Catalog=master;Integrated Security=SSPI;User ID=myDomain\\sa;Password=tlou2;";
-
                 using SqlConnection connection = new(connectionString);
                 connection.Open();
 
@@ -69,9 +70,6 @@ namespace ecommerce_dotnet_webapp.Pages.Auth
         {
             try
             {
-                string connectionString =
-                    "Data Source=localhost;Initial Catalog=master;Integrated Security=SSPI;User ID=myDomain\\sa;Password=tlou2;";
-
                 using (SqlConnection connection = new SqlConnection(connectionString))
                 {
                     connection.Open();

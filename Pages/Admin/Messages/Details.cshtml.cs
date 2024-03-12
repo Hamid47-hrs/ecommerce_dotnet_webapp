@@ -6,10 +6,14 @@ using Microsoft.AspNetCore.Mvc.RazorPages;
 namespace ecommerce_dotnet_webapp.Pages.Admin.Messages
 {
     [RequiredAuthentication(RequiredRole = "admin")]
-    public class DetailsModel : PageModel
+    public class DetailsModel(IConfiguration configuration) : PageModel
     {
         public string ErrorMessage { get; set; } = "";
         public MessageInfo messageInfo = new();
+
+        private readonly string connectionString = configuration.GetConnectionString(
+            "DefaultConnection"
+        )!;
 
         public void OnGet()
         {
@@ -17,9 +21,6 @@ namespace ecommerce_dotnet_webapp.Pages.Admin.Messages
 
             try
             {
-                string connectionString =
-                    "Data Source=localhost;Initial Catalog=master;Integrated Security=SSPI;User ID=myDomain\\sa;Password=tlou2;";
-
                 using SqlConnection connection = new(connectionString);
                 connection.Open();
                 string sql = "SELECT * FROM messages WHERE id=@id";

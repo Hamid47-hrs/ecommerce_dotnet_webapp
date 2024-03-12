@@ -7,11 +7,15 @@ using static ecommerce_dotnet_webapp.Pages.Admin.Users.IndexModel;
 namespace ecommerce_dotnet_webapp.Pages.Admin
 {
     [RequiredAuthentication(RequiredRole = "admin")]
-    public class DetailsModel : PageModel
+    public class DetailsModel(IConfiguration configuration) : PageModel
     {
         public OrderInfo orderInfo = new();
         public UserInfo userInfo = new();
         public string errorMessage = "";
+
+        private readonly string connectionString = configuration.GetConnectionString(
+            "DefaultConnection"
+        )!;
 
         public void OnGet(int id) //* Read ID of the order from page URL with inject method.
         {
@@ -26,9 +30,6 @@ namespace ecommerce_dotnet_webapp.Pages.Admin
 
             try
             {
-                string connectionString =
-                    "Data Source=localhost;Initial Catalog=master;Integrated Security=SSPI;User ID=myDomain\\sa;Password=tlou2;";
-
                 using SqlConnection connection = new(connectionString);
 
                 connection.Open();
@@ -75,7 +76,7 @@ namespace ecommerce_dotnet_webapp.Pages.Admin
                     orderInfo.paymentStatus = reader.GetString(6);
                     orderInfo.orderStatus = reader.GetString(7);
 
-                    orderInfo.orderItemInfoList = OrderInfo.getOrderItems(orderInfo.id);
+                    orderInfo.orderItemInfoList = OrderInfo.GetOrderItems(orderInfo.id);
                 }
                 else
                 {

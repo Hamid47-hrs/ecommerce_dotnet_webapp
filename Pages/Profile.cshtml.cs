@@ -9,7 +9,7 @@ namespace ecommerce_dotnet_webapp.Pages
 {
     [RequiredAuthentication]
     [BindProperties]
-    public class ProfileModel : PageModel
+    public class ProfileModel(IConfiguration configuration) : PageModel
     {
         [Required(ErrorMessage = "The First Name is REQUIRED!")]
         public string FirstName { get; set; } = "";
@@ -25,6 +25,10 @@ namespace ecommerce_dotnet_webapp.Pages
 
         public string errorMessage = "";
         public string successMessage = "";
+
+        private readonly string connectionString = configuration.GetConnectionString(
+            "DefaultConnection"
+        )!;
 
         public void OnGet()
         {
@@ -48,9 +52,6 @@ namespace ecommerce_dotnet_webapp.Pages
             string submitButton = Request.Form["action"]!;
 
             int? userId = HttpContext.Session.GetInt32("id");
-
-            string connectionString =
-                "Data Source=localhost;Initial Catalog=master;Integrated Security=SSPI;User ID=myDomain\\sa;Password=tlou2;";
 
             if (submitButton.Equals("profile"))
             {

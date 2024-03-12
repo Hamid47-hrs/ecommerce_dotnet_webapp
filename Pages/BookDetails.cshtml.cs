@@ -5,10 +5,13 @@ using static ecommerce_dotnet_webapp.Pages.Admin.Books.IndexModel;
 
 namespace ecommerce_dotnet_webapp.Pages
 {
-    public class BookDetailsModel : PageModel
+    public class BookDetailsModel(IConfiguration configuration) : PageModel
     {
         public BookInfo bookInfo = new();
         public string errorMessage = "";
+        private readonly string connectionString = configuration.GetConnectionString(
+            "DefaultConnection"
+        )!;
 
         public void OnGet(int? id)
         {
@@ -20,9 +23,6 @@ namespace ecommerce_dotnet_webapp.Pages
 
             try
             {
-                string connectionString =
-                    "Data Source=localhost;Initial Catalog=master;Integrated Security=SSPI;User ID=myDomain\\sa;Password=tlou2;";
-
                 using SqlConnection connection = new(connectionString);
                 connection.Open();
 
